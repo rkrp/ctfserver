@@ -24,6 +24,14 @@ class User(db.Document):
     def get_id(self):
         return unicode(self._id)
 
+    def auth_user(username, password):
+        user = User.objects(username__exact=username)
+        hash = user.password
+        if bcrypt.check_password_hash(hash, password):
+            return True
+        else:
+            return False
+
 class Service(db.EmbeddedDocument):
     name = db.StringField(max_length=128, required=True)
     port = db.IntField(min_value=1, max_value=65535, required=True)

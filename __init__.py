@@ -6,7 +6,7 @@ from flask.ext.login import LoginManager
 #from ctfserver import models
 #from ctfserver import views
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 app.config['MONGODB_SETTINGS'] = {'DB' : 'ctfdb'}
 app.config['SECRET_KEY'] = 'Oooooh!S3cr3T!!!!'
