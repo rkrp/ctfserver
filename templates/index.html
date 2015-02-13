@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div><a href="/scores">Scorecard</a></div>
+{% if logged_in == True %}
+    Welcome!!
+{% else %}
+    <div><a href="/login">Login</a></div>
+    <div><a href="/register">Register</a></div>
+{% endif %}
+{% endblock %}

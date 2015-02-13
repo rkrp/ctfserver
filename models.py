@@ -1,6 +1,14 @@
 import datetime
 from flask import url_for
-from ctfserver import db
+from flask.ext.login import login_user, logout_user
+from bson.objectid import ObjectId
+from ctfserver import db, bcrypt, lm
+
+#Callback for loading the user
+@lm.user_loader
+def load_user(userid):
+    #return db.find_one({'_id' : userid})
+    return User.objects(pk=userid)
 
 class User(db.Document):
     #id = db.IntField(primary_key=True)
@@ -22,15 +30,24 @@ class User(db.Document):
         return False
 
     def get_id(self):
-        return unicode(self._id)
+        return unicode(self.id)
 
-    def auth_user(username, password):
-        user = User.objects(username__exact=username)
+    def auth_user(self, username, password):
+        user = User.objects(username__exact=username)[0]
         hash = user.password
         if bcrypt.check_password_hash(hash, password):
+            login_user(user)
             return True
         else:
             return False
+
+    def register_user(self, username, password, email, host):
+        user = User()
+        user.username = username
+        user.password = bcrypt.generate_password_hash(password)
+        user.email = email
+        user.host = host
+        user.save()
 
 class Service(db.EmbeddedDocument):
     name = db.StringField(max_length=128, required=True)
