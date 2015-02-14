@@ -1,22 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <link href={{ url_for('static', filename='css/register.css') }} rel="stylesheet">
+                                                             
     {% if form.errors %}
-        <ul class="errors">
-            {% for field_name, field_errors in form.errors|dictsort if 
-field_errors %}
-                {% for error in field_errors %}
-                    <li>{{ form[field_name].label }}: {{ error }}</li>
-                {% endfor %}
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+            <div class="alert alert-danger" role="alert">
+            <strong>{{ form[field_name].label }}</strong>: {{ error }}</li>
+            </div>
             {% endfor %}
-        </ul>
+        {% endfor %}
     {% endif %}
 
-    <form method="post" action="/register">
-        <div>{{ form.username.label }}: {{ form.username() }}</div>
-        <div>{{ form.password.label }}: {{ form.password() }}</div>
-        <div>{{ form.conf_password.label }}: {{ form.conf_password() }}</div>
-        <div>{{ form.email.label }}: {{ form.email() }}</div>
-        <div>{{ form.submit() }} </div> 
+    <form class="form-signin" method="post" action="/register">
+        {{ form.username(class="form-control") }}
+        {{ form.email(class="form-control") }}
+        {{ form.password(class="form-control") }}
+        {{ form.conf_password(class="form-control") }}
+
+        <div>{{ form.submit(class="btn btn-lg btn-primary btn-block") }} </div> 
     </form>
 {% endblock %}

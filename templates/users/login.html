@@ -2,20 +2,20 @@
 
 {% block content %}
     <link href={{ url_for('static', filename='css/login.css') }} rel="stylesheet">
+   
     {% if form.errors %}
-        <ul class="errors">
-            {% for field_name, field_errors in form.errors|dictsort if 
-field_errors %}
-                {% for error in field_errors %}
-                    <li>{{ form[field_name].label }}: {{ error }}</li>
-                {% endfor %}
+        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+            {% for error in field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>{{ form[field_name].label }}</strong>: {{ error }}
+                </div>
             {% endfor %}
-        </ul>
+        {% endfor %}
     {% endif %}
 
     <form class="form-signin" method="post" action="/login">
         {{ form.username(class='form-control') }}
         {{ form.password(class='form-control') }}
-        <div>{{ form.submit(class="ben btn-lg btn-primary btn-block") }} </div> 
+        <div>{{ form.submit(class="btn btn-lg btn-primary btn-block") }} </div> 
     </form>
 {% endblock %}
