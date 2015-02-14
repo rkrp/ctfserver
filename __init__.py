@@ -22,5 +22,11 @@ def register_blueprints(app):
 
 register_blueprints(app)
 
+#Hack for getting login form everywhere
+@app.context_processor
+def login_form():
+    from forms import LoginForm
+    return dict(login_form=LoginForm())
+
 if __name__ == '__main__':
     app.run(debug=True)

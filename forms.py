@@ -10,7 +10,7 @@ class RegistrationForm(Form):
 class LoginForm(Form):
     username = StringField('Username', [validators.Length(min=4)])
     password = PasswordField('Password')
-    submit = SubmitField()
+    submit = SubmitField('Login')
 
 class FlagSubmissionForm(Form):
     flag = StringField('Flag', [validators.Length(min=32, max=32)])

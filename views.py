@@ -28,7 +28,7 @@ def login():
         if user.auth_user(username, password):
             return redirect(url_for('index'))
         else:
-            raise Exception("Incorrect Password!")
+            return redirect(url_for('login'))
     else:
         return render_template('users/login.html', form=form)
 

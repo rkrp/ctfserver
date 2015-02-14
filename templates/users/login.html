@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <link href={{ url_for('static', filename='css/login.css') }} rel="stylesheet">
     {% if form.errors %}
         <ul class="errors">
             {% for field_name, field_errors in form.errors|dictsort if 
@@ -12,9 +13,9 @@ field_errors %}
         </ul>
     {% endif %}
 
-    <form method="post" action="/login">
-        <div>{{ form.username.label }}: {{ form.username() }}</div>
-        <div>{{ form.password.label }}: {{ form.password() }}</div>
-        <div>{{ form.submit() }} </div> 
+    <form class="form-signin" method="post" action="/login">
+        {{ form.username(class='form-control') }}
+        {{ form.password(class='form-control') }}
+        <div>{{ form.submit(class="ben btn-lg btn-primary btn-block") }} </div> 
     </form>
 {% endblock %}

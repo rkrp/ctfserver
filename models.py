@@ -7,7 +7,6 @@ from ctfserver import db, bcrypt, lm
 #Callback for loading the user
 @lm.user_loader
 def load_user(userid):
-    #return db.find_one({'_id' : userid})
     return User.objects(pk=userid)[0]
 
 class User(db.Document):
