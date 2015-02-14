@@ -1,6 +1,6 @@
 import datetime
-from flask import url_for
-from flask.ext.login import login_user, logout_user
+from flask import url_for, session
+from flask.ext.login import login_user, logout_user, current_user
 from bson.objectid import ObjectId
 from ctfserver import db, bcrypt, lm
 
@@ -8,7 +8,7 @@ from ctfserver import db, bcrypt, lm
 @lm.user_loader
 def load_user(userid):
     #return db.find_one({'_id' : userid})
-    return User.objects(pk=userid)
+    return User.objects(pk=userid)[0]
 
 class User(db.Document):
     #id = db.IntField(primary_key=True)
@@ -49,10 +49,14 @@ class User(db.Document):
         user.host = host
         user.save()
 
+    def logout_user(self):
+        logout_user()
+
 class Service(db.EmbeddedDocument):
     name = db.StringField(max_length=128, required=True)
     port = db.IntField(min_value=1, max_value=65535, required=True)
     is_running = db.BooleanField(default=False)
     point = db.IntField(default=0, min_value=0)
+
 
 

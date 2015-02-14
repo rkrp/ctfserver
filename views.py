@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, render_template, url_for
+from flask import Blueprint, request, redirect, render_template, url_for, flash
 from flask.views import MethodView
 from ctfserver import app
 from ctfserver.models import *
@@ -14,7 +14,8 @@ class ListView(MethodView):
 users.add_url_rule('/scores', view_func=ListView.as_view('list'))
 
 @app.route('/')
-def home():
+def index():
+    #return str(current_user.is_authenticated)
     return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -25,11 +26,17 @@ def login():
         username = form.username.data
         password = form.password.data
         if user.auth_user(username, password):
-            return "Logged In"
+            return redirect(url_for('index'))
         else:
             raise Exception("Incorrect Password!")
     else:
         return render_template('users/login.html', form=form)
+
+@app.route('/logout')
+def logout():
+    user = User()
+    user.logout_user()
+    return redirect('/')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -39,5 +46,4 @@ def register():
         user.register_user(form.username.data, form.password.data, form.email.data, request.remote_addr)
         return redirect('/')
     else:
-
-        return render_template('users/register.html', form=form, logged_in=True)
+        return render_template('users/register.html', form=form)

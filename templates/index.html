@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 <div><a href="/scores">Scorecard</a></div>
-{% if logged_in == True %}
-    Welcome!!
+{% if current_user.is_authenticated() %}
+    Welcome Mr. {{ current_user.username }}
+    <div><a href={{ url_for('logout') }}>Logout<a></div>
 {% else %}
-    <div><a href="/login">Login</a></div>
-    <div><a href="/register">Register</a></div>
+    <div><a href={{ url_for('login') }}>Login</a></div>
+    <div><a href={{ url_for('register') }}>Register</a></div>
 {% endif %}
 {% endblock %}
