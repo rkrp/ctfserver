@@ -8,6 +8,9 @@ from flask.ext.login import LoginManager
 
 app = Flask(__name__, static_url_path='')
 
+#Add config file to the app
+app.config.from_object('config')
+
 app.config['MONGODB_SETTINGS'] = {'DB' : 'ctfdb'}
 app.config['SECRET_KEY'] = 'Oooooh!S3cr3T!!!!'
 

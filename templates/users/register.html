@@ -14,11 +14,11 @@
     {% endif %}
 
     <form class="form-signin" method="post" action="/register">
-        {{ form.username(class="form-control") }}
-        {{ form.email(class="form-control") }}
-        {{ form.password(class="form-control") }}
-        {{ form.conf_password(class="form-control") }}
-
+        {{ form.username(class="form-control", placeholder="Username") }}
+        {{ form.email(class="form-control", placeholder="EMail") }}
+        {{ form.password(class="form-control", placeholder="Password") }}
+        {{ form.conf_password(class="form-control", placeholder="Confirm Password") }}
+        {{ form.recaptcha() }}
         <div>{{ form.submit(class="btn btn-lg btn-primary btn-block") }} </div> 
     </form>
 {% endblock %}

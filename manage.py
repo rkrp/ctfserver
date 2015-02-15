@@ -6,6 +6,7 @@ from flask.ext.script import Manager, Server
 from ctfserver import app
 
 manager = Manager(app)
+app.testing = True
 
 # Turn on debugger by default and reloader
 manager.add_command("runserver", Server(

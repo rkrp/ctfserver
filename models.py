@@ -11,12 +11,12 @@ def load_user(userid):
 
 class User(db.Document):
     #id = db.IntField(primary_key=True)
-    username = db.StringField(min_length=4, max_length=32, required=True)
+    username = db.StringField(min_length=4, max_length=32, required=True, unique=True)
     password = db.StringField(min_length=60, max_length=60, required=True)
-    email = db.EmailField()
+    email = db.EmailField(unique=True)
     banned = db.BooleanField(default=False)
 
-    host = db.StringField(required=True)
+    host = db.StringField(required=True, unique=True)
     services = db.ListField(db.EmbeddedDocumentField('Service'))
 
     def is_authenticated(self):
@@ -32,7 +32,11 @@ class User(db.Document):
         return unicode(self.id)
 
     def auth_user(self, username, password):
-        user = User.objects(username__exact=username)[0]
+        try:
+            user = User.objects(email__exact=username)[0]
+        except:
+            return False
+
         hash = user.password
         if bcrypt.check_password_hash(hash, password):
             login_user(user)
@@ -56,6 +60,4 @@ class Service(db.EmbeddedDocument):
     port = db.IntField(min_value=1, max_value=65535, required=True)
     is_running = db.BooleanField(default=False)
     point = db.IntField(default=0, min_value=0)
-
-
 
