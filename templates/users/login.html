@@ -3,15 +3,7 @@
 {% block content %}
     <link href={{ url_for('static', filename='css/login.css') }} rel="stylesheet">
    
-    {% if form.errors %}
-        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
-            {% for error in field_errors %}
-                <div class="alert alert-danger" role="alert">
-                    <strong>{{ form[field_name].label }}</strong>: {{ error }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
+    {% include "errors.html" %}
 
     <form class="form-signin" method="post" action="/login">
         {{ form.username(class='form-control', placeholder="Email") }}

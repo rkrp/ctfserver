@@ -6,12 +6,12 @@ from ctfserver.forms import *
 
 users = Blueprint('users', __name__, template_folder='templates')
 
-class ListView(MethodView):
+class ScoresView(MethodView):
     def get(self):
         users = User.objects.all()
-        return render_template('users/scorecard.html', users=users)
+        return render_template('scores/scores.html', users=users)
 
-users.add_url_rule('/scores', view_func=ListView.as_view('list'))
+users.add_url_rule('/scores', view_func=ScoresView.as_view('list'))
 
 @app.route('/')
 def index():
