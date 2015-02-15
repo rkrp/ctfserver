@@ -8,7 +8,7 @@ users = Blueprint('users', __name__, template_folder='templates')
 
 class ScoresView(MethodView):
     def get(self):
-        users = User.objects.all()
+        users = User.get_scores()
         return render_template('scores/scores.html', users=users)
 
 users.add_url_rule('/scores', view_func=ScoresView.as_view('list'))

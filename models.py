@@ -17,6 +17,7 @@ class User(db.Document):
     banned = db.BooleanField(default=False)
 
     host = db.StringField(required=True, unique=True)
+    points = db.IntField(default=0)
     services = db.ListField(db.EmbeddedDocumentField('Service'))
 
     def is_authenticated(self):
@@ -54,6 +55,17 @@ class User(db.Document):
 
     def logout_user(self):
         logout_user()
+
+    @staticmethod
+    def get_scores():
+        users = User.objects.order_by('-points')
+
+        rank = 1
+        for i in range(len(users)):
+            users[i].rank = rank
+            rank += 1
+        return users
+
 
 class Service(db.EmbeddedDocument):
     name = db.StringField(max_length=128, required=True)
