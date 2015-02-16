@@ -10,9 +10,9 @@
         </thead>
         <tbody>
         {% for user in users %}
-        <td>{{ user.rank }}</td>
-        <td>{{ user.username }}</td>
-        <td>{{ user.points }}</td>
+        <td>{{ user['rank'] }}</td>
+        <td>{{ user['username'] }}</td>
+        <td>{{ user['points'] }}</td>
         {% endfor %}
         </tbody>
       </table>

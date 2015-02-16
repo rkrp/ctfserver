@@ -61,10 +61,15 @@ class User(db.Document):
         users = User.objects.order_by('-points')
 
         rank = 1
-        for i in range(len(users)):
-            users[i].rank = rank
+        res = []
+        for user in users:
+            rec = {'rank' : rank,
+                    'username' : user.username,
+                    'points' : user.points
+                  }
+            res.append(rec)
             rank += 1
-        return users
+        return res
 
 
 class Service(db.EmbeddedDocument):
