@@ -27,7 +27,7 @@
           <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">AmCTF</a></li>
-            <li><a href="/scores">Scores</a></li>
+            <li><a href="{{ url_for('users.scores') }}">Scores</a></li>
             <li><a href="#contact">Contact</a></li>
     	  </ul>
     	  </div> 
@@ -37,7 +37,7 @@
             {% if current_user.is_authenticated() %}
             <ul class="nav navbar-nav">
                 <li><a href="#">{{ current_user.username }}</a></li>
-                <li><a href={{ url_for('logout') }}>Logout</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
             </ul>
             {% else %}
             </div>

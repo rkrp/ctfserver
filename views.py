@@ -11,11 +11,10 @@ class ScoresView(MethodView):
         users = User.get_scores()
         return render_template('scores/scores.html', users=users)
 
-users.add_url_rule('/scores', view_func=ScoresView.as_view('list'))
+users.add_url_rule('/scores', view_func=ScoresView.as_view('scores'))
 
 @app.route('/')
 def index():
-    #return str(current_user.is_authenticated)
     return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])

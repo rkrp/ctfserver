@@ -1,7 +1,7 @@
 import datetime
 from flask import url_for, session
 from flask.ext.login import login_user, logout_user, current_user
-from bson.objectid import ObjectId
+from mongoengine import Q
 from ctfserver import db, bcrypt, lm
 
 #Callback for loading the user
@@ -15,8 +15,9 @@ class User(db.Document):
     password = db.StringField(min_length=60, max_length=60, required=True)
     email = db.EmailField(unique=True)
     banned = db.BooleanField(default=False)
+    role = db.StringField(min_length=2, max_length=50, required=True)
 
-    host = db.StringField(required=True, unique=True)
+    host = db.StringField(min_length=4, max_length=255, required=True, unique=True)
     points = db.IntField(default=0)
     services = db.ListField(db.EmbeddedDocumentField('Service'))
 
@@ -32,10 +33,9 @@ class User(db.Document):
     def get_id(self):
         return unicode(self.id)
 
-    def auth_user(self, username, password):
-        try:
-            user = User.objects(email__exact=username)[0]
-        except:
+    def auth_user(self, email, password):
+        user = User.objects(Q(email=email) & Q(role='player')).first()
+        if not user:
             return False
 
         hash = user.password
@@ -58,14 +58,14 @@ class User(db.Document):
 
     @staticmethod
     def get_scores():
-        users = User.objects.order_by('-points')
+        users = User.objects(role='player').order_by('-points')
 
         rank = 1
         res = []
         for user in users:
             rec = {'rank' : rank,
                     'username' : user.username,
-                    'points' : user.points
+                    'points' : user.points,
                   }
             res.append(rec)
             rank += 1
