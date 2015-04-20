@@ -29,7 +29,7 @@ def login():
         else:
             return redirect(url_for('login'))
     else:
-        return render_template('users/login.html', form=form)
+        return render_template('auth/login.html', form=form)
 
 @app.route('/logout')
 def logout():
